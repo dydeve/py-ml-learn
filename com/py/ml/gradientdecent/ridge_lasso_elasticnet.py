@@ -23,7 +23,7 @@ print(ridge_reg.coef_)
 """
 
 
-
+np.ravel()
 sgd_reg = SGDRegressor(penalty='l2', n_iter=1000)
 sgd_reg.fit(X, y.ravel())
 #print(sgd_reg.predict(1.5))
