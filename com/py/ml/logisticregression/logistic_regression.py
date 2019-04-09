@@ -10,8 +10,8 @@ from time import time
 __author__ = 'yasaka'
 
 iris = datasets.load_iris()
-print(list(iris.keys()))
-print(iris['DESCR'])
+print(list(iris.keys()))# cause iris is a dict
+print(iris['DESCR']) # Min  Max   Mean    SD (Standard Deviation)  Class Correlation
 print(iris['feature_names'])
 
 X = iris['data'][:, 3:]
@@ -39,6 +39,9 @@ print(y)
 # start = time()
 # param_grid = {"tol": [1e-4, 1e-3, 1e-2],
 #               "C": [0.4, 0.6, 0.8]}
+# 'ovr', 'multinomial'
+# ovr -> 多分类 => 多个二分类
+# multinomial -> 多分类 => softmax
 log_reg = LogisticRegression(multi_class='ovr', solver='sag')
 # grid_search = GridSearchCV(log_reg, param_grid=param_grid, cv=3)
 log_reg.fit(X, y)
@@ -54,6 +57,11 @@ y_proba = log_reg.predict_proba(X_new) # 预测分类概率
 y_hat = log_reg.predict(X_new) # 预测分类号
 print(y_proba)
 print(y_hat)
+
+# 有三个斜率（3,1）、截距(1, 3)；三分类
+# 如果把四个特征都算进去，（3，4）（1， 3）3个分类，每个分类四个特征
+print("w1", log_reg.coef_)
+print("w0", log_reg.intercept_)
 
 plt.plot(X_new, y_proba[:, 2], 'g-', label='Iris-Virginica')
 plt.plot(X_new, y_proba[:, 1], 'r-', label='Iris-Versicolour')
