@@ -165,7 +165,7 @@ print(results)
 history_dict = history.history
 print("history_dict.keys():{}".format(history_dict.keys()))
 
-
+history.ep
 acc = history.history['acc']
 val_acc = history.history['val_acc']
 loss = history.history['loss']
