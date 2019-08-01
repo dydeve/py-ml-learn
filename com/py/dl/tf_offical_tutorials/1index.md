@@ -16,9 +16,16 @@ https://www.tensorflow.org/tutorials
     通过自动微分写自定义层、前向传播、循环训练
 
     - [Eager execution](./eager/eager_basics.py)
-    - [自动微分和梯度记录 / Automatic differentiation and gradient tape]
-    - [自定义训练：基础知识 / Custom training: basics]
-    - [自定义层 / Custom layers]
-    - [自定义训练：演示 / Custom training: walkthrough]
-    - [高级示例：基于注意力的神经机器翻译]
+    - [自动微分和梯度记录 / Automatic differentiation and gradient tape](./eager/auto_differentaion.py)
+    - [自定义训练：基础知识 / Custom training: basics](./eager/custom_training.py)
+    - [自定义层 / Custom layers](./eager/custom_layers.py)
+    - [自定义训练：演示 / Custom training: walkthrough](./eager/custom_training_walkthrough.py)
+- [生产规模下的机器学习 / ML at production scale]
+    - [使用 Estimator 构建线性模型 / Build a linear model with Estimators](./estimators/linear.py)
+    - [宽度和深度学习 / wide and deep learning]()
+    - [提升树 / boost trees]()
+    - [提升树模型理解 / boosted trees model understanding]()
+    - [使用Estimators构建cnn / bulid a cnn using estimators]()
+
+
 

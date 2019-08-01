@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function
 import tensorflow as tf
 import numpy as np
 import time
+import tempfile
 
 """
   Eager execution provides an imperative interface to TensorFlow. With eager
@@ -72,7 +73,6 @@ print(tf.test.is_gpu_available())
 print("Is the Tensor on GPU #0:  "),
 print(x.device.endswith('GPU:0'))
 
-
 """
 TensorFlow automatically decides which device to execute an operation, and copies Tensors to that device if needed. 
 However, TensorFlow operations can be explicitly placed on specific devices using the tf.device context manager.
@@ -102,3 +102,61 @@ if tf.test.is_gpu_available():
         x = tf.random_uniform([1000, 1000])
         assert x.device.endswith("GPU:0")
         time_matmul(x)  # 10 loops: 237.37ms
+
+# Dataset
+"""Represents a potentially large set of elements.
+
+  A `Dataset` can be used to represent an input pipeline as a
+  collection of elements (nested structures of tensors) and a "logical
+  plan" of transformations that act on those elements.
+"""
+
+# Create a source Dataset
+ds_tensors = tf.data.Dataset.from_tensor_slices([1, 2, 3, 4, 5, 6])
+
+# Create a CSV file
+_, filename = tempfile.mkstemp()
+
+with open(filename, 'w') as f:
+    f.write("""Line 1
+Line 2
+Line 3
+  """)
+
+ds_file = tf.data.TextLineDataset(filename)
+
+print('\nElements in ds_file:')
+for x in ds_file:
+    print(x)
+"""
+tf.Tensor(b'Line 1', shape=(), dtype=string)
+tf.Tensor(b'Line 2', shape=(), dtype=string)
+tf.Tensor(b'Line 3', shape=(), dtype=string)
+tf.Tensor(b'  ', shape=(), dtype=string)
+"""
+
+# Apply transformations
+ds_tensors = ds_tensors.map(tf.square).shuffle(2).batch(2)
+
+# Iterate
+print('Elements of ds_tensors:')
+for x in ds_tensors:
+    print(x)
+
+ds_file = ds_file.batch(2)  # 2个元素组成一个batch
+
+print('\nElements in ds_file:')
+for x in ds_file:
+    print(x)
+
+"""
+Elements of ds_tensors:
+tf.Tensor([4 1], shape=(2,), dtype=int32)
+tf.Tensor([ 9 25], shape=(2,), dtype=int32)
+tf.Tensor([16 36], shape=(2,), dtype=int32)
+Elements in ds_file:
+tf.Tensor([b'Line 1' b'Line 2'], shape=(2,), dtype=string)
+tf.Tensor([b'Line 3' b'  '], shape=(2,), dtype=string)
+"""
+
+
